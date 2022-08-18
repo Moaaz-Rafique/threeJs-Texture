@@ -1,0 +1,13 @@
+{
+    "status": 0,
+    "msg": "SUCCESS",
+    "menuData": [
+      {
+        "title": "MODEL",
+        "value": "model",
+        "src": "./model/glb/Jaguar.glb",
+        "color": "#dddddd"
+      }
+    ]
+  }
+  
