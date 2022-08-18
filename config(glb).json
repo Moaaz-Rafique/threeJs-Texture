@@ -3,11 +3,45 @@
     "msg": "SUCCESS",
     "menuData": [
       {
-        "title": "MODEL",
-        "value": "model",
-        "src": "./model/glb/Jaguar.glb",
+        "title": "Cover",
+        "value": "cover",
+        "src": "./model/glb/sofa/cover.glb",
         "color": "#dddddd"
+        
+      },
+      {
+        "title": "Inner Frame",
+        "value": "innerFrame",
+        "src": "./model/glb/sofa/innerframe.glb",
+        "color": "#dddddd"
+        
+      },
+      {
+        "title": "Mid Pillow",
+        "value": "midPillow",
+        "src": "./model/glb/sofa/midpillow.glb",
+        "color": "#dddddd"
+        
+      },{
+        "title": "Outer Frame",
+        "value": "outerframe",
+        "src": "./model/glb/sofa/outerframe.glb",
+        "color": "#dddddd"
+        
+      },{
+        "title": "Side Pillow",
+        "value": "side pillow",
+        "src": "./model/glb/sofa/sidepillow.glb",
+        "color": "#dddddd"
+        
+      },{
+        "title": "Side Pillow 2",
+        "value": "sidepillow2",
+        "src": "./model/glb/sofa/sidepillow2.glb",
+        "color": "#dddddd"
+        
       }
+      
     ]
   }
   
