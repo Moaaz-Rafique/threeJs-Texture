@@ -236,7 +236,14 @@ body {
 }
 
 
-
+#textures-container button {
+	margin-top: 2vh;
+	margin-left: 16.3vw;
+	width: 8vw;
+	height: 8vh;		
+	background-size: 100% 100%;
+	transition: .3s;
+}
 
 
 

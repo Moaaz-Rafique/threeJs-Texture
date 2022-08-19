@@ -7,7 +7,7 @@ let height = $('#webglDisplay').height();     // height of modelGroup viewer (le
 
 const scene = new THREE.Scene();
 const renderer = new THREE.WebGLRenderer({ alpha: true });
-renderer.setClearColor("#000000", 0); 
+renderer.setClearColor("#000000", 0);
 renderer.setSize(width, height);
 $('#stl_cont').append(renderer.domElement);
 
@@ -18,7 +18,7 @@ camera.lookAt(new THREE.Vector3(0, 0, 0));
 
 
 const ambient = new THREE.AmbientLight("#999");
-scene.add(ambient); 
+scene.add(ambient);
 
 const pointlight_1 = new THREE.PointLight("#fff", 1, 3000);
 pointlight_1.position.set(0, 0, 2000);
@@ -46,7 +46,7 @@ function render() {
     controls.update();
     renderer.render(scene, camera);
 }
-let textureMain="./textures/tex4.jpg"
+let textureSrc = "./textures/tex4.jpg"
 function modelLoader(scene, name, src, color) {
     // const loader = new THREE.GLTFLoader();
     var loader = new THREE.GLTFLoader();
@@ -55,28 +55,28 @@ function modelLoader(scene, name, src, color) {
     //     "value": "innerFrame",
     //     "src": "./model/glb/sofa/innerframe.glb",
     //     "color": "#dddddd"
-        
+
     //   },
 
 
     // loader.load(src, function (geometry) {
-        //   const mesh = geometry.scene // material
-        //   mesh.name = name;
-        //   mesh.scale.set(2.5, 2.5, 2.5);
-        //   mesh.isDraggable = true;
-        //   scene.add(mesh);
-        // // });
-        
-        // const MODEL_PATH = "./model/glb/Jaguar.glb";
-    
-    loader.load(src, function(gltf) {
+    //   const mesh = geometry.scene // material
+    //   mesh.name = name;
+    //   mesh.scale.set(2.5, 2.5, 2.5);
+    //   mesh.isDraggable = true;
+    //   scene.add(mesh);
+    // // });
+
+    // const MODEL_PATH = "./model/glb/Jaguar.glb";
+
+    loader.load(src, function (gltf) {
         theModel = gltf.scene;
         let noOfMeshes = 0;
         const material = new THREE.MeshLambertMaterial({ color: color });
-        var textureLoader= new THREE.TextureLoader();
+        var textureLoader = new THREE.TextureLoader();
 
-        
-        var texture = textureLoader.load(textureMain);
+
+        var texture = textureLoader.load(textureSrc);
         texture.encoding = THREE.sRGBEncoding;
         texture.flipY = false;
 
@@ -94,26 +94,26 @@ function modelLoader(scene, name, src, color) {
         });
         console.log(src, noOfMeshes)
 
-    // Set the models initial scale   
-    theModel.scale.set(20.5,20.5,20.5);
-    theModel.rotation.y = Math.PI ;
-    
+        // Set the models initial scale   
+        theModel.scale.set(20.5, 20.5, 20.5);
+        theModel.rotation.y = Math.PI;
 
-    // Add the model to the scene
-    theModel.isDraggable = true
-    
-    // Set initial textures
-    //   for (let object of INITIAL_MAP) {
-    //     initColor(theModel, object.childID, object.mtl);
-    //   }
-    
-    scene.add(theModel);
 
-      // Remove the loader
-    //   LOADER.remove();
+        // Add the model to the scene
+        theModel.isDraggable = true
 
-    }, undefined, function(error) {
-    console.error(error)
+        // Set initial textures
+        //   for (let object of INITIAL_MAP) {
+        //     initColor(theModel, object.childID, object.mtl);
+        //   }
+
+        scene.add(theModel);
+
+        // Remove the loader
+        //   LOADER.remove();
+
+    }, undefined, function (error) {
+        console.error(error)
     });
 
 
@@ -123,7 +123,7 @@ $.getJSON(config, function (data) {
     let menuData = [];
     menuData = data.menuData;
     menuData.forEach(function (item, index) {
-      modelLoader(scene, item.value, item.src, item.color);
+        modelLoader(scene, item.value, item.src, item.color);
     })
 });
 
@@ -131,12 +131,12 @@ $.getJSON(config, function (data) {
 
 
 // onmousedown event - set the model in display using mouseclick
-$('#stl_cont').mousedown(function(event) {
+$('#stl_cont').mousedown(function (event) {
     event.preventDefault();
-    var mouse3D = new THREE.Vector3( ( (event.clientX  - window.innerWidth/20) / width ) * 2 - 1,  -( (event.clientY - window.innerHeight/20) / height ) * 2 + 1,  0.5 );   
-              
-    var raycaster =  new THREE.Raycaster();                                        
-    raycaster.setFromCamera( mouse3D, camera );
+    var mouse3D = new THREE.Vector3(((event.clientX - window.innerWidth / 20) / width) * 2 - 1, -((event.clientY - window.innerHeight / 20) / height) * 2 + 1, 0.5);
+
+    var raycaster = new THREE.Raycaster();
+    raycaster.setFromCamera(mouse3D, camera);
 
     const found = raycaster.intersectObjects(scene.children, true);
 
@@ -147,7 +147,7 @@ $('#stl_cont').mousedown(function(event) {
             let menuData = [];
             menuData = data.menuData;
             menuData.forEach(function (item, index) {
-                if(item.title == draggableObject.name) {
+                if (item.title == draggableObject.name) {
                     setId = index;
                     selectPreviewModel("");
                 }
@@ -161,7 +161,7 @@ $('#stl_cont').mousedown(function(event) {
 // auto rotation viewing
 var rotation = false;
 document.querySelector(".rotation_controller_board").addEventListener("click", event => {
-    if(document.getElementById('rotation_controller').style.backgroundImage == '') {
+    if (document.getElementById('rotation_controller').style.backgroundImage == '') {
         controls.autoRotate = true;
         controls.update();
         document.getElementById('rotation_controller').style.background = "url('asset/img/r-1-1.png')";
@@ -181,19 +181,19 @@ document.querySelector(".rotation_controller_board").addEventListener("click", e
 var clickflag = false;
 var originX = -1;
 var originMargin = -1;
-$('#zoom_controller_scroll').mousedown(function(event) {
+$('#zoom_controller_scroll').mousedown(function (event) {
     clickflag = true;
     originX = event.clientX;
     originMargin = parseInt($('#zoom_controller_scroll').css("margin-left").split('px')[0]);
 })
 
-$('body').mousemove(function(event) {
-    if(clickflag) {
+$('body').mousemove(function (event) {
+    if (clickflag) {
         var tempX = originMargin + event.clientX - originX;
-        var maxtemp = parseInt($('.zoom_controller_bar').css("width").split('px')[0] - $('#zoom_controller_scroll').css( "width").split('px')[0]);
-        if(tempX < 0) {
+        var maxtemp = parseInt($('.zoom_controller_bar').css("width").split('px')[0] - $('#zoom_controller_scroll').css("width").split('px')[0]);
+        if (tempX < 0) {
             tempX = 0
-        } else if(tempX > maxtemp){
+        } else if (tempX > maxtemp) {
             tempX = maxtemp
         }
         $('#zoom_controller_scroll').css("margin-left", tempX);
@@ -203,54 +203,49 @@ $('body').mousemove(function(event) {
         camera.updateProjectionMatrix();
     }
 })
-$('body').mouseup(function() { clickflag = false; })
-$('#zoom_controller_scroll').mouseup(function() { clickflag = false; })
-
-
-
-
-
+$('body').mouseup(function () { clickflag = false; })
+$('#zoom_controller_scroll').mouseup(function () { clickflag = false; })
 
 // sample color list
 const colors = [
-    '#dddddd', '#f22613', '#e74c3c', '#f62459', '#663399', '#9a12b3', 
-    '#bf55ec', '#19b5fe', '#1e8bc3', '#1f3a93', '#89c4f4', '#03c9a9', 
+    '#dddddd', '#f22613', '#e74c3c', '#f62459', '#663399', '#9a12b3',
+    '#bf55ec', '#19b5fe', '#1e8bc3', '#1f3a93', '#89c4f4', '#03c9a9',
     '#26c281', '#16a085', '#2eec71', '#f2784b', '#f89406', '#f9bf3b',
     '#000000', '#ffffff'
 ];
 
 
-    var temp;
+var temp;
 //load funtion 
-window.addEventListener("load", function() {
+window.addEventListener("load", function () {
     setId = 0;
     selectModelColor = "";
     selectPreviewModel("");
 
     var wh;
-    if(window.innerWidth / 4 >= window.innerHeight * 3 / 5) {
+    if (window.innerWidth / 4 >= window.innerHeight * 3 / 5) {
         wh = 0;
     } else {
         wh = 1;
     }
 
-    if(wh) {
+    if (wh) {
         temp = window.innerWidth / 9;
-        $('#col-preview').css({width: temp, height: temp});
+        $('#col-preview').css({ width: temp, height: temp });
     } else {
         temp = window.innerHeight / 4;
-        $('#col-preview').css({width: temp, height: temp});
+        $('#col-preview').css({ width: temp, height: temp });
     }
 
-    var x = Math.floor(window.innerWidth / 4 );
+    var x = Math.floor(window.innerWidth / 4);
     var y = Math.floor(window.innerHeight * 3 / 5);
-    document.getElementById('col-preview').style.transform = "translate(" + (x-temp)/2 + "px, " + (y-temp)/2 + "px)";
+    document.getElementById('col-preview').style.transform = "translate(" + (x - temp) / 2 + "px, " + (y - temp) / 2 + "px)";
 
-    $('.col-sample').css({width:temp/2, height:temp/2})
+    $('.col-sample').css({ width: temp / 2, height: temp / 2 })
     //color board
-    for (var i=0; i<colors.length; i++) {
+    for (var i = 0; i < colors.length; i++) {
         var node = document.createElement('div');
-        node.id= i;
+        node.id = i;
         node.className = 'col-sample';
 
         node.style.width = (temp / 6) + "px";
@@ -258,13 +253,13 @@ window.addEventListener("load", function() {
 
         var degree = i * 18 - 11;
 
-        node.style.transformOrigin = "0px " + (temp/1.2) + "px";
-        node.style.transform = "translate(" + Math.floor(window.innerWidth * 12.2 / 100) + "px, " + (Math.floor(window.innerHeight * 0.3)-(temp/1.15)) + "px)" + " rotate(" + degree + "deg)";
+        node.style.transformOrigin = "0px " + (temp / 1.2) + "px";
+        node.style.transform = "translate(" + Math.floor(window.innerWidth * 12.2 / 100) + "px, " + (Math.floor(window.innerHeight * 0.3) - (temp / 1.15)) + "px)" + " rotate(" + degree + "deg)";
         node.style.backgroundColor = colors[i];
 
-        node.onclick = function() { onclick_col_sample(this) };
-        node.onmouseover = function() { mOver(this) };
-        node.onmouseout = function() { mOut(this) };
+        node.onclick = function () { onclick_col_sample(this) };
+        node.onmouseover = function () { mOver(this) };
+        node.onmouseout = function () { mOut(this) };
         document.getElementById('col-panel').appendChild(node);
     }
 
@@ -277,13 +272,13 @@ window.addEventListener("load", function() {
             var modelpiece = document.createElement('div');
             modelpiece.id = "model-" + index;
             modelpiece.className = 'stl_modelItem';
-            modelpiece.onclick = function() { SelectItemModel(this) };
+            modelpiece.onclick = function () { SelectItemModel(this) };
             document.getElementById('stl_models_panel').appendChild(modelpiece);
-            if(index == menuData.length - 1) {
+            if (index == menuData.length - 1) {
                 modelpieceDisplay();
             }
         });
-    });  
+    });
 });
 
 
@@ -317,11 +312,11 @@ function modelpieceDisplay() {
             renderer_item[index].setSize(width, height);
             $('#model-' + index).append(renderer_item[index].domElement);
 
-            const camera_item = new THREE.OrthographicCamera( width / - 2, width / 2, height / 2, height / - 2, 1, 1500);
+            const camera_item = new THREE.OrthographicCamera(width / - 2, width / 2, height / 2, height / - 2, 1, 1500);
             camera_item.position.set(0, 0, 600);
 
             const ambient_item = new THREE.AmbientLight("#999");
-            scene_item[index].add(ambient_item); 
+            scene_item[index].add(ambient_item);
 
             const pointlight_1_item = new THREE.PointLight("#fff", 1, 3000);
             pointlight_1_item.position.set(0, 0, 2000);
@@ -346,24 +341,31 @@ function modelpieceDisplay() {
             function modelLoader_item(scene, name, src, color) {
                 const loader = new THREE.GLTFLoader();
                 loader.load(src, function (geometry) {
-                    geometry.center();
+                    // geometry.center();
 
                     const material = new THREE.MeshLambertMaterial({ color: color });
                     const mesh = geometry.scene;
                     // mesh.name = name;
+                    var textureLoader = new THREE.TextureLoader();
+
+
+                    var texture = textureLoader.load(textureSrc);
+                    texture.encoding = THREE.sRGBEncoding;
+                    texture.flipY = false;
+
                     mesh.traverse((o) => {
                         if (o.isMesh) {
                             o.castShadow = true;
                             o.receiveShadow = true;
                             o.material = material
-                            o.material.map = texture
+                            // o.material.map = texture
                         }
                     });
                     let bbox = new THREE.Box3().setFromObject(mesh);
 
                     // determine the scale value of each model
                     // standard size is "body" model
-                    if(index == 0) {
+                    if (index == 0) {
                         $("#temp_x").val(bbox.max.x);
                         $("#temp_y").val(bbox.max.y);
                         $("#temp_z").val(bbox.max.z);
@@ -373,7 +375,7 @@ function modelpieceDisplay() {
                         var newScale = parseFloat($("#temp_" + xyz[maxIndex(bbox.max)]).val()) / bbox.max[xyz[maxIndex(bbox.max)]] * initScale[maxIndex(bbox.max)];
                         mesh.scale.set(newScale, newScale, newScale);
                     }
-
+                    mesh.position.set(0,0,0);
                     scene_item[index].add(mesh);
                 });
             }
@@ -391,8 +393,8 @@ function modelpieceDisplay() {
 
 
 // click event of each model
-function SelectItemModel(obj) { 
-    setId = obj.id.split('-')[1]; 
+function SelectItemModel(obj) {
+    setId = obj.id.split('-')[1];
     selectPreviewModel("")
 }
 
@@ -411,9 +413,9 @@ function onclick_col_sample(index) {
         document.getElementById(i).style.transform = result;
     }
 
-    if(setId != -1) {
+    if (setId != -1) {
         selectModelColor = index.style.backgroundColor.split("rgb")[1].split("(")[1].split(")")[0].split(", ");
-        
+
         $.getJSON(config, function (data) {
             menuData = data.menuData;
             modelLoader(scene, menuData[setId].value, menuData[setId].src, arrTostr(selectModelColor));
@@ -441,20 +443,20 @@ const pointlight_5_preview = new THREE.PointLight("#eee", 1, 2000);
 pointlight_5_preview.position.set(0, -2000, 0);
 
 function maxIndex(obj) {
-    if(obj.x >= obj.y && obj.x >= obj.z) { return 0; }
-    if(obj.y >= obj.x && obj.y >= obj.z) { return 1; }
-    if(obj.z >= obj.x && obj.z >= obj.y) { return 2; }
+    if (obj.x >= obj.y && obj.x >= obj.z) { return 0; }
+    if (obj.y >= obj.x && obj.y >= obj.z) { return 1; }
+    if (obj.z >= obj.x && obj.z >= obj.y) { return 2; }
 }
-const xyz = ['x','y','z'];
+const xyz = ['x', 'y', 'z'];
 
 function selectPreviewModel(color) {
-    if(setId != -1) {
+    if (setId != -1) {
         $.getJSON(config, function (data) {
             let menuData = [];
             menuData = data.menuData;
 
-            while(scene_preview.children.length != 0) {
-                scene_preview.remove(scene_preview.children[0]); 
+            while (scene_preview.children.length != 0) {
+                scene_preview.remove(scene_preview.children[0]);
             }
 
             let width_preview = $('#col-preview').width();
@@ -465,7 +467,7 @@ function selectPreviewModel(color) {
 
 
             const ambient_preview = new THREE.AmbientLight("#999");
-            scene_preview.add(ambient_preview); 
+            scene_preview.add(ambient_preview);
 
             scene_preview.add(pointlight_1_preview);
             scene_preview.add(pointlight_2_preview);
@@ -473,7 +475,7 @@ function selectPreviewModel(color) {
             scene_preview.add(pointlight_4_preview);
             scene_preview.add(pointlight_5_preview);
 
-            const camera_preview = new THREE.OrthographicCamera( width_preview / - 2, width_preview / 2, height_preview / 2, height_preview / - 2, 1, 500);
+            const camera_preview = new THREE.OrthographicCamera(width_preview / - 2, width_preview / 2, height_preview / 2, height_preview / - 2, 1, 500);
             camera_preview.position.set(0, 0, 150);
 
             const controls_preview = new THREE.OrbitControls(camera_preview, renderer_preview.domElement);
@@ -484,12 +486,12 @@ function selectPreviewModel(color) {
             function modelLoader_preview(scene, name, src, color) {
                 const loader = new THREE.GLTFLoader();
                 loader.load(src, function (geometry) {
-                    geometry.center();
+                    // geometry.center();
 
                     const material = new THREE.MeshLambertMaterial({ color: color });
                     const mesh = geometry.scene;
                     // mesh.name = name;
-                    var textureLoader= new THREE.TextureLoader();        
+                    var textureLoader = new THREE.TextureLoader();
                     var texture = textureLoader.load(textureSrc);
                     texture.encoding = THREE.sRGBEncoding;
                     texture.flipY = false;
@@ -502,9 +504,10 @@ function selectPreviewModel(color) {
                             o.material.map = texture
                         }
                     });
+
                     let bbox = new THREE.Box3().setFromObject(mesh);
-                    
-                    if(setId == 0) {
+
+                    if (setId == 0) {
                         initScale[0] = temp / bbox.max.x / 8;
                         initScale[1] = temp / bbox.max.y / 8;
                         initScale[2] = temp / bbox.max.z / 8;
@@ -516,11 +519,11 @@ function selectPreviewModel(color) {
                         var newScale = parseFloat($("#temp_" + xyz[maxIndex(bbox.max)]).val()) / bbox.max[xyz[maxIndex(bbox.max)]] * 2.7 * initScale[maxIndex(bbox.max)];
                         mesh.scale.set(newScale, newScale, newScale);
                     }
-
+                    mesh.position.set(0,0,0);
                     scene_preview.add(mesh);
                 });
             }
-            
+
 
             render_preview();
 
@@ -529,7 +532,7 @@ function selectPreviewModel(color) {
                 renderer_preview.render(scene_preview, camera_preview);
             }
 
-            if(color == "") {
+            if (color == "") {
                 modelLoader_preview(scene_preview, menuData[setId].value, menuData[setId].src, menuData[setId].color);
             } else {
                 console.log(1)
@@ -537,7 +540,7 @@ function selectPreviewModel(color) {
             }
         });
 
-        if(color != "") { 
+        if (color != "") {
             $.getJSON(config, function (data) {
                 let menuData = [];
                 menuData = data.menuData;
@@ -550,7 +553,7 @@ function selectPreviewModel(color) {
                 renderer_item[setId].setSize(width, height);
                 $('#model-' + setId).append(renderer_item[setId].domElement);
 
-                const camera = new THREE.OrthographicCamera( width / - 2, width / 2, height / 2, height / - 2, 1, 1500);
+                const camera = new THREE.OrthographicCamera(width / - 2, width / 2, height / 2, height / - 2, 1, 1500);
                 camera.position.set(0, 0, 600);
 
 
@@ -564,10 +567,10 @@ function selectPreviewModel(color) {
 
                         const material = new THREE.MeshLambertMaterial({ color: color });
                         const mesh = geometry.scene;
-                        
-                        var textureLoader= new THREE.TextureLoader();
 
-                        
+                        var textureLoader = new THREE.TextureLoader();
+
+
                         var texture = textureLoader.load(textureSrc);
                         texture.encoding = THREE.sRGBEncoding;
                         texture.flipY = false;
@@ -584,7 +587,7 @@ function selectPreviewModel(color) {
 
                         let bbox = new THREE.Box3().setFromObject(mesh);
 
-                        if(setId == 0) {
+                        if (setId == 0) {
                             $("#temp_x").val(bbox.max.x);
                             $("#temp_y").val(bbox.max.y);
                             $("#temp_z").val(bbox.max.z);
@@ -593,7 +596,7 @@ function selectPreviewModel(color) {
                             var newScale = parseFloat($("#temp_" + xyz[maxIndex(bbox.max)]).val()) / bbox.max[xyz[maxIndex(bbox.max)]] * initScale[maxIndex(bbox.max)];
                             mesh.scale.set(newScale, newScale, newScale);
                         }
-
+                        mesh.position.set(0,0,0);
                         scene_item[setId].add(mesh);
                     });
                 }
@@ -625,7 +628,7 @@ function change(value) {
     return result;
 }
 function convert(value) {
-    switch(value) {
+    switch (value) {
         case 10: return "a";
         case 11: return "b";
         case 12: return "c";
@@ -662,22 +665,29 @@ function saveImage() {
 
     link.setAttribute('href', img.src);
     link.setAttribute('target', '_blank');
-    link.setAttribute('download', "stl_"+time+".png");
+    link.setAttribute('download', "stl_" + time + ".png");
 
     link.click();
 }
 
 function tex1() {
-    textureMain = "./textures/tex1.jpg"
-    alert(textureMain)
+    textureSrc = "./textures/tex1.jpg"
+    $.getJSON(config, function (data) {
+        let menuData = [];
+        menuData = data.menuData;
+        modelLoader(scene, menuData[setId].value, menuData[setId].src, arrTostr(selectModelColor));
+    })
 }
 function tex2() {
-    textureMain = "./textures/tex2.jpg"
-    alert(textureMain)
+    textureSrc = "./textures/tex2.jpg"
+    $.getJSON(config, function (data) {
+        let menuData = [];
+        menuData = data.menuData;
+        modelLoader(scene, menuData[setId].value, menuData[setId].src, arrTostr(selectModelColor));
+    })
 }
 function tex3() {
-    textureMain = "./textures/tex3.jpg"
-    alert(textureMain)
+    textureSrc = "./textures/tex3.jpg"
 }
 
 

@@ -8,7 +8,14 @@
         "src": "./model/glb/sofa/cover.glb",
         "color": "#dddddd"
         
-      },      
+      },
+      {
+        "title": "Inner Frame",
+        "value": "innerFrame",
+        "src": "./model/glb/sofa/innerframe.glb",
+        "color": "#dddddd"
+        
+      },
       {
         "title": "Mid Pillow",
         "value": "midPillow",
